@@ -7,8 +7,16 @@
         <servlet-name>muluServlet</servlet-name>
         <servlet-class>controller.MuluServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>VerifyServlet</servlet-name>
+        <servlet-class>controller.VerifyServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>muluServlet</servlet-name>
         <url-pattern>/mulu</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>VerifyServlet</servlet-name>
+        <url-pattern>/verify</url-pattern>
     </servlet-mapping>
 </web-app>
