@@ -12,6 +12,8 @@
     <jsp:include page="head.jsp"></jsp:include>
 </head>
 <body>
+<jsp:include page="sidebar.jsp"></jsp:include>
 admin.jsp 后台界面
+
 </body>
 </html>
