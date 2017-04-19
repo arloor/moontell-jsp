@@ -15,7 +15,7 @@ div.img-container{
 
 
 
-div.mulu ul,div.contentlist ul{
+div.mulu ul,div.frendlinks ul{
     list-style-type: none;
     margin: 0;
     padding: 0;
@@ -29,7 +29,7 @@ div.mulu a{
     text-align: center;
 }
 
-div.contentlist a{
+div.frendlinks a{
     color: inherit;
     display: block;
     line-height: 170%;
@@ -38,16 +38,21 @@ div.contentlist a{
 }
 
 div.content-body{
-    //background-color: #b9def0;
-    background-image: url("image/circles-and-roundabouts.png.png");
+//background-color: #b9def0;
+//background-image: url("image/circles-and-roundabouts.png.png");
     padding-top: 10px;
-    font-family: "Adobe 楷体 Std R";
-}
-div.content-body h1,h2,h3,h4,h5,h6{
-    font-family: "Adobe 黑体 Std R";
+    font-family: Merriweather, Georgia, serif;
+    line-height: 2;
+    font-size: 16px;
+
 }
 
-div.loginbody{
+body.mainbody{
+    //background-image: url("image/circles-and-roundabouts.png.png");
+    background-color: #e5e5e5;
+}
+
+body.loginbody{
     background-image: url("image/circles-and-roundabouts.png.png");
 }
 

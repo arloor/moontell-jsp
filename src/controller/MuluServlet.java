@@ -1,7 +1,6 @@
 package controller;
 
-import helper.WebInfo;
-import model.*;
+import helper.*;
 
 import java.io.IOException;
 import java.io.PrintWriter;
@@ -17,6 +16,7 @@ public class MuluServlet extends javax.servlet.http.HttpServlet {
     protected void doGet(javax.servlet.http.HttpServletRequest request, javax.servlet.http.HttpServletResponse response) throws javax.servlet.ServletException, IOException {
         request.setCharacterEncoding("UTF-8");//必须设置request的编码
         response.setContentType("text/html;charset=UTF-8");
+        //取消ajax缓存——所有处理ajax的都要这个
         response.setHeader("Cache-Control", "no-store");
         response.setHeader("Pragma", "no-cache");
         response.setDateHeader("Expires", 0);
@@ -26,9 +26,7 @@ public class MuluServlet extends javax.servlet.http.HttpServlet {
         //System.out.println(fenlei);
         Fenlei fenleiEnum;
         try{//捕捉空指针异常，这说明是直接访问/mulu的，把他重定向到index.jsp(见catch)
-            if(fenlei.equals("daily_post")){
-                fenleiEnum=Fenlei.DAILYPOST;
-            }else if(fenlei.equals("time_mail")){
+            if(fenlei.equals("time_mail")){
                 fenleiEnum=Fenlei.TIMEMAIL;
             }else if(fenlei.equals("about")){
                 fenleiEnum=Fenlei.ABOUT;
@@ -43,12 +41,12 @@ public class MuluServlet extends javax.servlet.http.HttpServlet {
         }
 
         String responseText=new String();
+        //根据分类不同把处理转发给不同的Servlet
         switch (fenleiEnum){
-            case ABOUT:{responseText=new About().toAjaxResponseText();break;}
-            case MEMORY:{responseText=new Memory().toAjaxResponseText();break;}
-            case TIMEMAIL:{responseText=new TimeMail().toAjaxResponseText();break;}
-            case DAILYPOST:{responseText=new DailyPost().toAjaxResponseText();break;}
-            case NOTSET:{responseText=new Cover().toAjaxResponseText();break;}
+            case ABOUT:{response.sendRedirect("About");break;}
+            case MEMORY:{response.sendRedirect("Memory");break;}
+            case TIMEMAIL:{response.sendRedirect("TimeMail");break;}
+            case NOTSET:{response.sendRedirect("Cover");break;}
             default:{responseText="<h2>没有选分类哦</h2>";}
         }
 
