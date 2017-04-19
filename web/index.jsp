@@ -5,6 +5,7 @@
 
     <title>Moontell</title>
     <jsp:include page="jsp/head.jsp"></jsp:include>
+
 </head>
 <body class="mainbody">
     <div class=".container-fluid index">

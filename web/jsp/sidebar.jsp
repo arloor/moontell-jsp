@@ -30,7 +30,7 @@
             <!--mulu?type=daily_post日常记录 mulu?type=time_mail时间锦囊 mulu?type=memory纪念日 mulu?type=about关于站长-->
             <li><a href="post.jsp" class="fenleilink">日常记录</a></li>
             <li><a href="mulu?type=time_mail" class="fenlei">时间锦囊</a></li>
-            <li><a href="mulu?type=memory" class="fenlei">纪念日</a></li>
+            <li><a href="timeIsFlying.jsp" class="fenleilink">纪念日</a></li>
             <li><a href="mulu?type=about" class="fenlei">关于站长</a></li>
             <%!
                 String manageText="你是悦悦吗";
