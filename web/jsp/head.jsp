@@ -15,7 +15,7 @@
 
     <!-- Bootstrap -->
     <link href="css/bootstrap.css"  type="text/css" rel="stylesheet">
-    <link href="style.css" rel="stylesheet" type="text/css">
+    <link href="css/style.css" rel="stylesheet" type="text/css">
     <script src="//cdn.bootcss.com/jquery/3.2.1/jquery.min.js"></script>
     <script src="js/bootstrap.js"></script>
 

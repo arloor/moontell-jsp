@@ -16,7 +16,7 @@ public class DailyPost {
     public String getGuestVisiblePosts(){
         String guestVisiblePostsContents=new String();
         String sql="select visibleposts.* from (SELECT * FROM `mt_blogs` WHERE guest_visible = 1 and term = 0) visibleposts,(SELECT ID , MAX(version) as maxversion from mt_blogs GROUP by ID) AS a where visibleposts.ID =a.ID and visibleposts.version=a.maxversion ORDER by ID DESC";
-        System.out.println(sql);
+        System.out.println("获取访客可见的日常记录： "+sql);
         guestVisiblePostsContents=getPosts(sql);
         return guestVisiblePostsContents;
     }
@@ -25,7 +25,7 @@ public class DailyPost {
         String allPosts=new String();
         String sql="select visibleposts.* from (SELECT * FROM `mt_blogs` WHERE term = 0) visibleposts,(SELECT ID , MAX(version) as maxversion from mt_blogs GROUP by ID) AS a where visibleposts.ID =a.ID and visibleposts.version=a.maxversion ORDER by ID DESC";
 
-        System.out.println(sql);
+        System.out.println("获取所有日常记录： "+sql);
         allPosts=getPosts(sql);
         return allPosts;
     }
@@ -41,10 +41,10 @@ public class DailyPost {
                 Timestamp date=resultSet.getTimestamp(6);
                 String dateString=date.toString().substring(0,19);
                 String link="post.jsp?id="+postId+"&version="+version;
-                postsContent+="<a href="+link+"><h1>"+resultSet.getString("post_title")+"</h1></a>";
+                postsContent+="<a class=\"post\" href="+link+"><h1>"+resultSet.getString("post_title")+"</h1></a>";
                 postsContent+="<h4>"+dateString+"</h4>";
                 postsContent+=resultSet.getString("post_content");
-                postsContent+="<br><br><br>";
+                postsContent+="<br><br>";
 
             }
             resultSet.close();
@@ -59,7 +59,7 @@ public class DailyPost {
     public String getCertainPost(String id, String version) {
         String postsContent=new String();
         String sql="SELECT * FROM `mt_blogs` where id= "+id+" and version = "+version;
-        System.out.println(sql);
+        System.out.println("获取id为"+id+"版本为"+version+"的日常记录："+sql);
         try {
             Statement statement = conn.createStatement();
             ResultSet resultSet = statement.executeQuery(sql);
@@ -67,10 +67,10 @@ public class DailyPost {
                 Timestamp date=resultSet.getTimestamp(6);
                 String dateString=date.toString().substring(0,19);
                 String link="post.jsp?id="+id+"&version="+version;
-                postsContent+="<a href="+link+"><h1>"+resultSet.getString("post_title")+"</h1></a>";
+                postsContent+="<a class=\"post\" href="+link+"><h1>"+resultSet.getString("post_title")+"</h1></a>";
                 postsContent+="<h4>"+dateString+"</h4>";
                 postsContent+=resultSet.getString("post_content");
-                postsContent+="<br><br><br>";
+                postsContent+="<br><br>";
 
             }else{
                 postsContent="<h1>没有这篇文章哦<h1>";

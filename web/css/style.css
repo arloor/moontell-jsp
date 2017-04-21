@@ -53,6 +53,10 @@ body{
 }
 
 body.loginbody{
-    background-image: url("image/circles-and-roundabouts.png.png");
+    background-image: url("../image/circles-and-roundabouts.png.png");
+}
+
+a.post{
+    color: #0f0f0f;
 }
 
