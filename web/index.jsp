@@ -9,7 +9,7 @@
 
 </head>
 <body class="mainbody">
-    <div class=".container-fluid index">
+    <div class="container-fluid index">
         <div class="container-fluid">
             <div class="row">
                 <!--引入侧边栏-->
