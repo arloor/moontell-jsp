@@ -3,12 +3,12 @@ package model;
 /**
  * Created by moontell on 2017/4/24.
  */
-public class VersionVO {
+public class PostVersionVO {
     private int id;
     private int version;
     private String time;
 
-    public VersionVO(int id, int version, String time) {
+    public PostVersionVO(int id, int version, String time) {
         this.id = id;
         this.version = version;
         this.time = time;

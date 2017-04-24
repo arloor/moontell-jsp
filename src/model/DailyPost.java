@@ -212,29 +212,29 @@ public class DailyPost {
         return minId;
     }
 
-    public List<VersionVO> getPostVersionsEarlierAndEqual(String id, String version, int postShowedNum) {
+    public List<PostVersionVO> getPostVersionsEarlierAndEqual(String id, String version, int postShowedNum) {
 
         String sql="SELECT ID,version,post_time FROM `mt_blogs` WHERE ID = "+id+" AND version <= "+version+" ORDER BY version DESC LIMIT 0 , "+postShowedNum;
-        List<VersionVO> versionVOS =getVersions(sql);
-        return versionVOS;
+        List<PostVersionVO> postVersionVOS =getVersions(sql);
+        return postVersionVOS;
     }
 
-    public List<VersionVO> getPostVersionsEarlier(String id,String version,int postShowedNum) {
+    public List<PostVersionVO> getPostVersionsEarlier(String id, String version, int postShowedNum) {
 
         String sql="SELECT ID,version,post_time FROM `mt_blogs` WHERE ID = "+id+" AND version < "+version+" ORDER BY version DESC LIMIT 0 , "+postShowedNum;
-        List<VersionVO> versionVOS =getVersions(sql);
-        return versionVOS;
+        List<PostVersionVO> postVersionVOS =getVersions(sql);
+        return postVersionVOS;
     }
 
-    public List<VersionVO> getPostVersionsLaterAndEqual(String id, String version, int postShowedNum) {
+    public List<PostVersionVO> getPostVersionsLaterAndEqual(String id, String version, int postShowedNum) {
         String sql="SELECT * FROM (SELECT ID,version,post_time FROM `mt_blogs` WHERE ID = "+id+" AND version >= "+version+" ORDER BY version ASC LIMIT 0 , "+postShowedNum+") a ORDER BY version DESC";
-        List<VersionVO> versionVOS =getVersions(sql);
-        return versionVOS;
+        List<PostVersionVO> postVersionVOS =getVersions(sql);
+        return postVersionVOS;
     }
 
 
-    public List<VersionVO> getVersions(String sql) {
-        List<VersionVO> versionVOS =new ArrayList<>();
+    public List<PostVersionVO> getVersions(String sql) {
+        List<PostVersionVO> postVersionVOS =new ArrayList<>();
         try{
             Statement statement=conn.createStatement();
             ResultSet resultSet= statement.executeQuery(sql);
@@ -242,13 +242,13 @@ public class DailyPost {
                 int ID=resultSet.getInt("ID");
                 int version=resultSet.getInt("version");
                 String post_time=resultSet.getTimestamp("post_time").toString().substring(0,16);
-                VersionVO versionVO =new VersionVO(ID,version,post_time);
-                versionVOS.add(versionVO);
+                PostVersionVO postVersionVO =new PostVersionVO(ID,version,post_time);
+                postVersionVOS.add(postVersionVO);
             }
         }catch (SQLException e){
             e.printStackTrace();
         }
-        return versionVOS;
+        return postVersionVOS;
     }
 
     public int getMaxPostVersionByID(String id) {

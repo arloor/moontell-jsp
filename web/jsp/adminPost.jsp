@@ -1,8 +1,8 @@
 <%@ page import="model.DailyPost" %>
 <%@ page import="model.PostVO" %>
-<%@ page import="model.VersionVO" %>
+<%@ page import="model.PostVersionVO" %>
 <%@ page import="java.util.List" %>
-<%@ page import="java.util.ArrayList" %><%--
+<%--
   Created by IntelliJ IDEA.
   User: moontell
   Date: 2017/4/18
@@ -56,7 +56,7 @@
     if(id !=null&&version!=null){
         certainPost=true;
     }
-    int postShowedNum=5;
+    int postShowedNum=8;
     List<PostVO> postVOS=dailyPost.getLatestPostVOs(postShowedNum);
     int maxPostId=dailyPost.getMaxPostID();
     int minPostId=dailyPost.getMinPostId();
@@ -70,8 +70,6 @@
                 <%
                     //从数据库读取日常记录列表
                     if(!certainPost) {
-                        if (length == null)
-                            postVOS = dailyPost.getLatestPostVOs(postShowedNum);
                         if (length != null && maxid != null) {
                             postVOS = dailyPost.getLatestPostVOsLater(Integer.parseInt(maxid),postShowedNum);
                         }
@@ -133,8 +131,8 @@
                         <input type="checkbox" id="isdeleted"<%=certainPost&&certainPostVO.getIsDeleted()==1?"checked":""%>>是否删除
                     </label>
                 </div>
-                <label><%=certainPost?certainPostVO.getPost_time():""%></label>
                 <button type="submit" class="btn btn-default" id="save">发布</button>
+                <label><%=certainPost?certainPostVO.getPost_time():""%></label>
             </form>
             <div id="editor" style="height: 500px" class="content-body">
                 <%=certainPost?certainPostVO.getPostsContent():"<p>请输入内容...</p>"%>
@@ -151,23 +149,23 @@
 
                 String versionsmallerthan=request.getParameter("versionsmallerthan");
 
-                List<VersionVO> versionVOS;
+                List<PostVersionVO> postVersionVOS;
                 if(versionbigerthan!=null){
-                    versionVOS=dailyPost.getPostVersionsLaterAndEqual(id,version,postShowedNum);
+                    postVersionVOS =dailyPost.getPostVersionsLaterAndEqual(id,version,postShowedNum);
                 }else if(versionsmallerthan!=null){
-                    versionVOS=dailyPost.getPostVersionsEarlierAndEqual(id,version,postShowedNum);
+                    postVersionVOS =dailyPost.getPostVersionsEarlierAndEqual(id,version,postShowedNum);
                 }else{
-                    versionVOS=dailyPost.getPostVersionsEarlierAndEqual(id,version,postShowedNum);
+                    postVersionVOS =dailyPost.getPostVersionsEarlierAndEqual(id,version,postShowedNum);
                 }
-                int currentMaxVersion=versionVOS.get(0).getVersion();
-                int currentMinVersion=versionVOS.get(versionVOS.size()-1).getVersion();
+                int currentMaxVersion= postVersionVOS.get(0).getVersion();
+                int currentMinVersion= postVersionVOS.get(postVersionVOS.size()-1).getVersion();
 
 
                 if(currentMaxVersion!=maxVersion){
                     out.println("<a href=\"?id="+id+"&version="+currentMaxVersion+"&versionbigerthan="+currentMaxVersion+"\" class=\"list-group-item\">更新</a>");
                 }
 
-                for (VersionVO cell:versionVOS
+                for (PostVersionVO cell: postVersionVOS
                      ) {
                     out.println("<a href=\"?id="+id+"&version="+cell.getVersion()+"\" class=\"list-group-item\">"+cell.getTime()+"</a>");
                 }
@@ -224,7 +222,6 @@
         // post_title,post_content,commentable,isdeleted
         var id=document.getElementById("postID").innerHTML;
         var version=document.getElementById("version").innerHTML;
-        var post_time=curentTime();
 
         var visible=0;
         var visibleCheckbox=document.getElementById('visible');
@@ -256,7 +253,7 @@
         var req=new XMLHttpRequest();
         req.open("POST","AjaxNewPostServlet",true);
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        req.send("test=8&"+"id="+id+"&version="+version+"&post_time="+post_time+"&visible="+visible+"&commontable="+commontable+"&isdeleted="+isdeleted+"&postTitle="+postTitle+"&postContent="+postContent);
+        req.send("test=8&"+"id="+id+"&version="+version+"&visible="+visible+"&commontable="+commontable+"&isdeleted="+isdeleted+"&postTitle="+postTitle+"&postContent="+postContent);
         req.onreadystatechange=function () {
             if(req.readyState==4&&this.status==200){
                 window.location.href="?id="+id+"&version="+version;
@@ -268,40 +265,6 @@
         addSubmitListener()
     );
 
-    function curentTime()
-    {
-        var now = new Date();
-
-        var year = now.getFullYear();       //年
-        var month = now.getMonth() + 1;     //月
-        var day = now.getDate();            //日
-
-        var hh = now.getHours();            //时
-        var mm = now.getMinutes();          //分
-        var nn = Math.floor(now.getMilliseconds()/1000*60);          //毫秒
-
-        var clock = year + "-";
-
-        if(month < 10)
-            clock += "0";
-
-        clock += month + "-";
-
-        if(day < 10)
-            clock += "0";
-
-        clock += day + " ";
-
-        if(hh < 10)
-            clock += "0";
-
-        clock += hh + ":";
-        if (mm < 10) clock += '0';
-        clock += mm + ":";
-        if (nn < 10) clock += '0';
-        clock += nn;
-        return(clock);
-    }
 </script>
 
 </body>

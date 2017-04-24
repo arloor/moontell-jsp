@@ -8,6 +8,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.PrintWriter;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 
 /**
  * Created by moontell on 2017/4/24.
@@ -24,13 +26,15 @@ public class AjaxNewPostServlet extends HttpServlet {
         PrintWriter writer=response.getWriter();
         String id=request.getParameter("id");
         String version=request.getParameter("version");
-        String post_time=request.getParameter("post_time");
+        Calendar post_time= Calendar.getInstance();
+        SimpleDateFormat df=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss");
+        String post_timeString=df.format(post_time.getTime());
         String visible=request.getParameter("visible");
         String commontable=request.getParameter("commontable");
         String isdeleted=request.getParameter("isdeleted");
         String postTitle=request.getParameter("postTitle");
         String postContent=request.getParameter("postContent");
-        new DailyPost().insertPost(id,version,post_time,visible,commontable,isdeleted,postTitle,postContent);
+        new DailyPost().insertPost(id,version,post_timeString,visible,commontable,isdeleted,postTitle,postContent);
         writer.println("成功");
 
 

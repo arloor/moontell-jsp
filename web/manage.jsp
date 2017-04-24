@@ -29,10 +29,16 @@
         }else{
             hasLogin=false;
         }
-        if (hasLogin==true){
-            whichTOInclude="jsp/admin.jsp";
-        }else{
+        String type=request.getParameter("type");
+        if (hasLogin==false){
             whichTOInclude="jsp/login.jsp";
+        }else{
+            if(type==null){//type为空，默认管理文章
+                whichTOInclude="jsp/adminPost.jsp";
+            }else if(type.equals("jinianri")){//type为空，默认管理文章
+                whichTOInclude="jsp/adminJinianri.jsp";
+            }
+
         }
         String loginStatus=request.getParameter("loginStatus");
         if(loginStatus!=null&&loginStatus.equals("fail")&&hasLogin==false){
