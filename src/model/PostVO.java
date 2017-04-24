@@ -8,17 +8,19 @@ public class PostVO {
     private int version;
     private int post_author;
     private String address;
+    private String post_time;
     private int guest_visible;
     private String postTitle;
     private String postsContent;
     private int commontable;
     private int isDeleted;
 
-    public PostVO(int postId, int version, int post_author, String address, int guest_visible, String postTitle, String postsContent, int commontable, int isDeleted) {
+    public PostVO(int postId, int version, int post_author, String address,String post_time, int guest_visible, String postTitle, String postsContent, int commontable, int isDeleted) {
         this.postId = postId;
         this.version = version;
         this.post_author = post_author;
         this.address = address;
+        this.post_time=post_time;
         this.guest_visible = guest_visible;
         this.postTitle = postTitle;
         this.postsContent = postsContent;
@@ -96,5 +98,13 @@ public class PostVO {
 
     public void setIsDeleted(int isDeleted) {
         this.isDeleted = isDeleted;
+    }
+
+    public String getPost_time() {
+        return post_time;
+    }
+
+    public void setPost_time(String post_time) {
+        this.post_time = post_time;
     }
 }

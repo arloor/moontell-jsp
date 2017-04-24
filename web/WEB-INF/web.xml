@@ -11,6 +11,10 @@
         <servlet-name>VerifyServlet</servlet-name>
         <servlet-class>controller.VerifyServlet</servlet-class>
     </servlet>
+    <servlet>
+        <servlet-name>AjaxNewPostServlet</servlet-name>
+        <servlet-class>helper.AjaxNewPostServlet</servlet-class>
+    </servlet>
     <servlet-mapping>
         <servlet-name>muluServlet</servlet-name>
         <url-pattern>/mulu</url-pattern>
@@ -18,5 +22,9 @@
     <servlet-mapping>
         <servlet-name>VerifyServlet</servlet-name>
         <url-pattern>/verify</url-pattern>
+    </servlet-mapping>
+    <servlet-mapping>
+        <servlet-name>AjaxNewPostServlet</servlet-name>
+        <url-pattern>/AjaxNewPostServlet</url-pattern>
     </servlet-mapping>
 </web-app>
