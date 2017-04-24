@@ -27,7 +27,7 @@ public class Cover {
                 String ctitle="<h1 style=\"text-align:center\">"+resultSet.getString(3)+"</h1>";
                 String ccontent=resultSet.getString(4);
                 coverContent+=ctitle;
-                coverContent+="<h4>"+ctime+"</h4>";
+                coverContent+="<h4 style=\"text-align:center\">"+ctime+"</h4>";
                 coverContent+=ccontent;
                 coverContent+="<br><br>";
             }
