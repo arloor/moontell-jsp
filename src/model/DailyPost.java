@@ -16,9 +16,20 @@ public class DailyPost {
         conn= DataConnection.getConn();
     }
 
+    public void insertPost(String id, String version,String post_time,String visible,String commontable,String isdeleted ,String postTitle,String postContent){
+        String sql="INSERT INTO `moontell`.`mt_blogs` (`ID`, `version`, `post_author`, `term`, `address`, `post_time`, `guest_visible`, `post_title`, `post_content`, `commentable`, `isdeleted`) VALUES ('"+id+"', '"+version+"', '1', '0', NULL, CURRENT_TIMESTAMP, '"+visible+"', '"+postTitle+"', '"+postContent+"', '"+commontable+"', '"+isdeleted+"');";
+        try {
+            Statement statement=conn.createStatement();
+            statement.execute(sql);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
     public String getGuestVisiblePosts(){
         String guestVisiblePostsContents=new String();
-        String sql="select visibleposts.* from (SELECT * FROM `mt_blogs` WHERE guest_visible = 1 and term = 0) visibleposts,(SELECT ID , MAX(version) as maxversion from mt_blogs where isdeleted =0 GROUP by ID) AS a where visibleposts.ID =a.ID and visibleposts.version=a.maxversion ORDER by ID DESC";
+        //String sql="select visibleposts.* from (SELECT * FROM `mt_blogs` WHERE guest_visible = 1 and term = 0) visibleposts,(SELECT ID , MAX(version) as maxversion from mt_blogs where isdeleted =0 GROUP by ID) AS a where visibleposts.ID =a.ID and visibleposts.version=a.maxversion ORDER by ID DESC";
+        String sql="select visibleposts.* from (SELECT * FROM `mt_blogs` WHERE guest_visible = 1 and term = 0) visibleposts,(SELECT ID , MAX(version) as maxversion from mt_blogs GROUP by ID) AS a where visibleposts.ID =a.ID and visibleposts.version=a.maxversion AND isdeleted =0 ORDER by ID DESC";
         System.out.println("获取访客可见的日常记录： "+sql);
         guestVisiblePostsContents=getPosts(sql);
         return guestVisiblePostsContents;
@@ -26,8 +37,8 @@ public class DailyPost {
 
     public String getAllPosts() {
         String allPosts=new String();
-        String sql="select visibleposts.* from (SELECT * FROM `mt_blogs` WHERE term = 0) visibleposts,(SELECT ID , MAX(version) as maxversion from mt_blogs where isdeleted =0 GROUP by ID) AS a where visibleposts.ID =a.ID and visibleposts.version=a.maxversion ORDER by ID DESC";
-
+        //String sql="select visibleposts.* from (SELECT * FROM `mt_blogs` WHERE term = 0) visibleposts,(SELECT ID , MAX(version) as maxversion from mt_blogs where isdeleted =0 GROUP by ID) AS a where visibleposts.ID =a.ID and visibleposts.version=a.maxversion ORDER by ID DESC";
+        String sql="select visibleposts.* from (SELECT * FROM `mt_blogs` WHERE term = 0) visibleposts,(SELECT ID , MAX(version) as maxversion from mt_blogs GROUP by ID) AS a where visibleposts.ID =a.ID and visibleposts.version=a.maxversion and isdeleted =0 ORDER by ID DESC";
         System.out.println("获取所有日常记录： "+sql);
         allPosts=getPosts(sql);
         return allPosts;
@@ -51,7 +62,7 @@ public class DailyPost {
                 int version=resultSet.getInt(2);
                 int post_author=resultSet.getInt(3);
                 String address=resultSet.getString(5);
-                String post_time=resultSet.getTimestamp(6).toString().substring(0,19);
+                String post_time=resultSet.getTimestamp(6).toString().substring(0,16);
                 int guest_visible=resultSet.getInt(7);
                 String postTitle=resultSet.getString(8);
                 String postsContent=resultSet.getString(9);
@@ -77,7 +88,7 @@ public class DailyPost {
                 int postId=resultSet.getInt(1);
                 int version=resultSet.getInt(2);
                 Timestamp date=resultSet.getTimestamp(6);
-                String dateString=date.toString().substring(0,19);
+                String dateString=date.toString().substring(0,16);
                 String link="post.jsp?id="+postId+"&version="+version;
                 postsContent+="<a class=\"post\" href="+link+"><h1>"+resultSet.getString("post_title")+"</h1></a>";
                 postsContent+="<h4>"+dateString+"</h4>";
@@ -103,7 +114,7 @@ public class DailyPost {
             while(resultSet.next()){
                 int post_author=resultSet.getInt(3);
                 String address=resultSet.getString(5);
-                String post_time=resultSet.getTimestamp(6).toString().substring(0,19);
+                String post_time=resultSet.getTimestamp(6).toString().substring(0,16);
                 int guest_visible=resultSet.getInt(7);
                 String postTitle=resultSet.getString(8);
                 String postsContent=resultSet.getString(9);
@@ -129,7 +140,7 @@ public class DailyPost {
             ResultSet resultSet = statement.executeQuery(sql);
             if (resultSet.next()) {
                 Timestamp date=resultSet.getTimestamp(6);
-                String dateString=date.toString().substring(0,19);
+                String dateString=date.toString().substring(0,16);
                 String link="post.jsp?id="+id+"&version="+version;
                 postsContent+="<a class=\"post\" href="+link+"><h1>"+resultSet.getString("post_title")+"</h1></a>";
                 postsContent+="<h4>"+dateString+"</h4>";
@@ -230,7 +241,7 @@ public class DailyPost {
             while(resultSet.next()){
                 int ID=resultSet.getInt("ID");
                 int version=resultSet.getInt("version");
-                String post_time=resultSet.getTimestamp("post_time").toString().substring(0,19);
+                String post_time=resultSet.getTimestamp("post_time").toString().substring(0,16);
                 VersionVO versionVO =new VersionVO(ID,version,post_time);
                 versionVOS.add(versionVO);
             }

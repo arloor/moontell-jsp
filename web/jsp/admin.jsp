@@ -110,29 +110,33 @@
         </div>
         <div  class="col-xs-12 col-md-8">
             <form class="form-inline">
+                <!--隐藏域用来存ID信息-->
+                <label style="display: none" id="postID"><%=certainPost?certainPostVO.getPostId():maxPostId+1%></label>
+                <!--隐藏域用来存将要保存的新纪录的version信息-->
+                <label style="display: none" id="version"><%=certainPost?dailyPost.getMaxPostVersionByID(String.valueOf(certainPostVO.getPostId()))+1:0%></label>
                 <div class="form-group">
                     <label for="title">文章标题</label>
                     <input type="text" class="form-control" id="title"  placeholder="请输入文章标题" value="<%=certainPost?certainPostVO.getPostTitle():""%>">
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" <%=certainPost&&certainPostVO.getGuest_visible()==1?"checked":""%>>访客可见
+                        <input type="checkbox" id="visible"<%=certainPost&&certainPostVO.getGuest_visible()==1?"checked":""%>>访客可见
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" <%=certainPost&&certainPostVO.getCommontable()==1?"checked":""%>>允许评论
+                        <input type="checkbox" id="commentable"<%=certainPost&&certainPostVO.getCommontable()==1?"checked":""%>>允许评论
                     </label>
                 </div>
                 <div class="checkbox">
                     <label>
-                        <input type="checkbox" <%=certainPost&&certainPostVO.getIsDeleted()==1?"checked":""%>>是否删除
+                        <input type="checkbox" id="isdeleted"<%=certainPost&&certainPostVO.getIsDeleted()==1?"checked":""%>>是否删除
                     </label>
                 </div>
                 <label><%=certainPost?certainPostVO.getPost_time():""%></label>
-                <button type="submit" class="btn btn-default">发布</button>
+                <button type="submit" class="btn btn-default" id="save">发布</button>
             </form>
-            <div id="div1" style="height: 500px" class="content-body">
+            <div id="editor" style="height: 500px" class="content-body">
                 <%=certainPost?certainPostVO.getPostsContent():"<p>请输入内容...</p>"%>
             </div>
         </div>
@@ -144,9 +148,9 @@
                 int maxVersion=dailyPost.getMaxPostVersionByID(id);
                 int minVersion=dailyPost.getMinPostVersionByID(id);
                 String versionbigerthan=request.getParameter("versionbigerthan");
-                System.out.println("versionbigerthan "+ versionbigerthan);
+
                 String versionsmallerthan=request.getParameter("versionsmallerthan");
-                System.out.println("versionsmallerthan "+ versionsmallerthan);
+
                 List<VersionVO> versionVOS;
                 if(versionbigerthan!=null){
                     versionVOS=dailyPost.getPostVersionsLaterAndEqual(id,version,postShowedNum);
@@ -183,8 +187,121 @@
 <script type="text/javascript" src="wangEditor/js/wangEditor.min.js"></script>
 <!--这里引用jquery和wangEditor.js-->
 <script type="text/javascript">
-    var editor = new wangEditor('div1');
+    var editor = new wangEditor('editor');
     editor.create();
+</script>
+
+<!--<script src="js/ajax.js"></script>
+<script>addOnLoad(addSubmitListener())</script>-->
+
+<script>
+    //定义增加页面加载完成的操作
+    function addOnLoad(func){
+        var oldOnLoad=window.onload;
+        if(typeof oldOnLoad!='function'){
+            window.onload=func;
+        }else{
+            window.onload=function(){
+                oldOnLoad();
+                func();
+            }
+        }
+    }
+
+
+    function addSubmitListener(){
+        var save=document.getElementById("save");
+
+        save.onclick=function () {
+            doAjaxSubmit();
+            return false;
+        }
+    }
+
+    //----------------------------------------------------------
+    function doAjaxSubmit() {
+        //id,version,post_time,guest_visible,
+        // post_title,post_content,commentable,isdeleted
+        var id=document.getElementById("postID").innerHTML;
+        var version=document.getElementById("version").innerHTML;
+        var post_time=curentTime();
+
+        var visible=0;
+        var visibleCheckbox=document.getElementById('visible');
+        if(visibleCheckbox.checked==true){
+            visible=1;
+        }
+
+        var commontable=0;
+        var commontableCheckbox=document.getElementById('commentable');
+        if(commontableCheckbox.checked==true){
+            commontable=1;
+        }
+
+        var isdeleted=0;
+        var isdeletedCheckbox=document.getElementById('isdeleted');
+        if(isdeletedCheckbox.checked==true){
+            isdeleted=1;
+        }
+
+        var postTitle=document.getElementById("title").value;
+        if(postTitle==""){
+            alert("请输入标题");
+            return false;
+        }
+        var postContent=editor.$txt.html();
+
+
+
+        var req=new XMLHttpRequest();
+        req.open("POST","AjaxNewPostServlet",true);
+        req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+        req.send("test=8&"+"id="+id+"&version="+version+"&post_time="+post_time+"&visible="+visible+"&commontable="+commontable+"&isdeleted="+isdeleted+"&postTitle="+postTitle+"&postContent="+postContent);
+        req.onreadystatechange=function () {
+            if(req.readyState==4&&this.status==200){
+                window.location.href="?id="+id+"&version="+version;
+            }
+        }
+
+    }
+    addOnLoad(
+        addSubmitListener()
+    );
+
+    function curentTime()
+    {
+        var now = new Date();
+
+        var year = now.getFullYear();       //年
+        var month = now.getMonth() + 1;     //月
+        var day = now.getDate();            //日
+
+        var hh = now.getHours();            //时
+        var mm = now.getMinutes();          //分
+        var nn = Math.floor(now.getMilliseconds()/1000*60);          //毫秒
+
+        var clock = year + "-";
+
+        if(month < 10)
+            clock += "0";
+
+        clock += month + "-";
+
+        if(day < 10)
+            clock += "0";
+
+        clock += day + " ";
+
+        if(hh < 10)
+            clock += "0";
+
+        clock += hh + ":";
+        if (mm < 10) clock += '0';
+        clock += mm + ":";
+        if (nn < 10) clock += '0';
+        clock += nn;
+        return(clock);
+    }
 </script>
 
 </body>

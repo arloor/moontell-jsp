@@ -18,38 +18,25 @@ function addOnLoad(func){
 }
 
 
+function addSubmitListener(){
+    var save=document.getElementById("save");
 
-//---------------------------------------------------------
-//定义页面加载完成的操作
-addOnLoad(addMuluAjianting);
-
+    save.onclick=function () {
+        doAjaxSubmit();
+        return false;
+    }
+}
 
 //----------------------------------------------------------
-function doAjaxFenlei(href) {
+function doAjaxSubmit() {
     var req=new XMLHttpRequest();
-    req.open("GET",href,true);
-    //alert(href);
+    req.open("GET","AjaxNewPost",true);
     req.send();
     req.onreadystatechange=function () {
         if(req.readyState==4&&this.status==200){
             //document.getElementById("content").innerHTML=req.responseText;
-            document.getElementById("content").innerHTML=req.responseText;
+            alert("保存成功");
         }
     }
-
-}
-function addMuluAjianting(){
-    var mulu=document.getElementById("mulu");
-    var fenleiAs=mulu.getElementsByClassName("fenlei");
-    //alert(fenleiAs.length);
-
-    for(var i=0;i<fenleiAs.length;i++){
-        var a=fenleiAs[i];
-        a.onclick=function () {
-            doAjaxFenlei(this.href);
-            return false;
-        }
-    }
-
 
 }

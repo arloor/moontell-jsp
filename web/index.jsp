@@ -32,9 +32,6 @@
         </div>
     </div>
 
-    <script src="js/ajax.js"></script>
-    <script>//addOnLoad(doAjaxFenlei("mulu?type=notset"));</script>
-
 
 </body>
 </html>

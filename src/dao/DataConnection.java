@@ -9,8 +9,7 @@ public class DataConnection {
     //private String url = "jdbc:mysql://localhost:3306/moontell?"
     //        + "user=moontell&password=moontell&useUnicode=true&characterEncoding=UTF8";
 
-    static String url = "jdbc:mysql://115.159.161.236:3306/moontell?"
-            + "user=lgh&password=lgh8023lfy&useUnicode=true&characterEncoding=UTF8";
+    static String url = "jdbc:mysql://115.159.161.236:3306/moontell?user=lgh&password=lgh8023lfy&useUnicode=true&characterEncoding=UTF8";
     private Connection conn;
     private static DataConnection dataCon;
 
