@@ -253,7 +253,7 @@
         var req=new XMLHttpRequest();
         req.open("POST","AjaxNewPostServlet",true);
         req.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
-        req.send("test=8&"+"id="+id+"&version="+version+"&visible="+visible+"&commontable="+commontable+"&isdeleted="+isdeleted+"&postTitle="+postTitle+"&postContent="+postContent);
+        req.send("testConnection=8&"+"id="+id+"&version="+version+"&visible="+visible+"&commontable="+commontable+"&isdeleted="+isdeleted+"&postTitle="+postTitle+"&postContent="+postContent);
         req.onreadystatechange=function () {
             if(req.readyState==4&&this.status==200){
                 window.location.href="?id="+id+"&version="+version;
