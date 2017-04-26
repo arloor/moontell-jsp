@@ -16,7 +16,7 @@
 
     <!--存放网站logo以及网站明-->
     <div class="img-container">
-        <a href="/moontell">
+        <a href="/">
             <img src="https://www.arloor.com/wordpress/wp-content/uploads/2017/03/dsc_7362_1.jpg" class="img-circle img-responsive">
         </a>
     </div>

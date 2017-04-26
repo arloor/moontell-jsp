@@ -24,7 +24,7 @@
                             <span class="icon-bar"></span>
                             <span class="icon-bar"></span>
                         </button>
-                        <a class="navbar-brand" href="/moontell">首页</a>
+                        <a class="navbar-brand" href="/">首页</a>
                     </div>
 
 
