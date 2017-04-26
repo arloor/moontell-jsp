@@ -6,7 +6,7 @@
 
     <title>Moontell</title>
     <jsp:include page="jsp/head.jsp"></jsp:include>
-
+    <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"/>
 </head>
 <body class="mainbody">
     <div class="container-fluid index">
